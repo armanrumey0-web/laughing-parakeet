@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unique Shop - Trusted Online Store</title>
+  <script src="https://tailwindcss.com"></script>
+  <link href="https://googleapis.com" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #059669;
+      --primary-hover: #047857;
+      --primary-light: #ecfdf5;
+      --primary-text: #047857;
+      --banner-from: #047857;
+      --banner-to: #0d9488;
+      --btn-radius: 0.75rem;
+    }
+    body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+    .modal-backdrop { background-color: rgba(15, 23, 42, 0.65); backdrop-filter: blur(4px); }
+    .theme-bg { background-color: var(--primary); }
+    .theme-bg:hover { background-color: var(--primary-hover); }
+    .theme-bg-static { background-color: var(--primary); }
+    .theme-light-bg { background-color: var(--primary-light); }
+    .theme-text { color: var(--primary-text); }
+    .theme-banner { background: linear-gradient(135deg, var(--banner-from), var(--banner-to)); }
+    .dynamic-btn { border-radius: var(--btn-radius); }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
+  </style>
+</head>
+<body class="text-slate-800 antialiased">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-40 bg-white border-b border-slate-200 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+      <!-- Brand / Logo -->
+      <div class="flex items-center gap-3 cursor-pointer" onclick="window.scrollTo({top:0, behavior:'smooth'})">
+        <div id="headerLogoContainer" class="w-11 h-11 rounded-xl theme-bg-static text-white flex items-center justify-center font-bold text-xl overflow-hidden shadow">
+          <span id="defaultLogoText">U</span>
+          <img id="headerLogoImg" src="" alt="Logo" class="hidden w-full h-full object-cover" />
+        </div>
+        <div>
+          <h1 id="headerShopName" class="text-xl font-bold text-slate-900 leading-tight">Unique Shop</h1>
+          <p class="text-xs text-slate-500 flex items-center gap-1.5">
+            <span>Trusted Online Shopping</span>
+            <span id="liveSyncIndicator" class="hidden px-1.5 py-0.5 bg-emerald-100 text-emerald-700 rounded text-[10px] font-bold">● LIVE</span>
+          </p>
+        </div>
+      </div>
+
+      <!-- Navigation Actions -->
+      <div class="flex items-center gap-2 sm:gap-3">
+        <button onclick="openTrackModal()" class="dynamic-btn flex items-center gap-1.5 px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-semibold transition">
+          <span>📦</span>
+          <span>Track Order</span>
+        </button>
+
+        <button onclick="openAdminGate()" class="dynamic-btn flex items-center gap-1.5 px-3.5 py-2 bg-slate-800 hover:bg-slate-900 text-white text-sm font-semibold transition">
+          <span>⚙️</span>
+          <span>Admin</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Banner -->
+  <section class="max-w-7xl mx-auto px-4 pt-5">
+    <div id="heroBanner" class="relative rounded-2xl overflow-hidden theme-banner text-white shadow-lg">
+      <img id="heroBannerImg" src="" alt="Banner" class="hidden absolute inset-0 w-full h-full object-cover opacity-35" />
+      <div class="relative z-10 px-6 py-10 sm:px-12 sm:py-14 max-w-2xl">
+        <span class="inline-block px-3 py-1 mb-3 text-xs font-semibold uppercase tracking-wider bg-white/20 backdrop-blur-sm rounded-full">
+          Cash on Delivery & Nagad Payment Available
+        </span>
+        <h2 id="heroTitle" class="text-2xl sm:text-4xl font-bold leading-snug mb-3">
+          Best Quality Products Right at Your Fingertips!
+        </h2>
+        <p id="heroSubtitle" class="text-sm sm:text-base text-white/90 mb-6">
+          Fast home delivery across Bagerhat and all over Bangladesh. Use coupon code <strong>UNIQUE10</strong> at checkout for a special discount.
+        </p>
+        <a href="#productsSection" class="dynamic-btn inline-flex items-center gap-2 px-5 py-2.5 bg-white theme-text font-bold text-sm hover:bg-slate-50 transition shadow">
+          <span>Browse Products</span>
+          <span>↓</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Flash Sale / Special Offer Countdown Bar -->
+  <section id="countdownSection" class="max-w-7xl mx-auto px-4 pt-5">
+    <div class="bg-gradient-to-r from-rose-600 via-orange-600 to-amber-600 text-white rounded-2xl p-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-md">
+      <div class="flex items-center gap-3 text-center sm:text-left">
+        <span class="text-3xl animate-pulse">🔥</span>
+        <div>
+          <h3 id="offerTitleDisplay" class="font-bold text-base sm:text-lg">Special Flash Sale Offer is Live!</h3>
+          <p class="text-xs text-orange-100">Order your favorite items before the countdown ends</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2 text-center font-bold">
+        <div class="bg-slate-900/40 backdrop-blur-sm px-3 py-1.5 rounded-xl min-w-[54px]">
+          <span id="cdDays" class="block text-lg leading-none">00</span>
+          <span class="text-[10px] uppercase text-orange-100">Days</span>
+        </div>
+        <span>:</span>
+        <div class="bg-slate-900/40 backdrop-blur-sm px-3 py-1.5 rounded-xl min-w-[54px]">
+          <span id="cdHours" class="block text-lg leading-none">00</span>
+          <span class="text-[10px] uppercase text-orange-100">Hours</span>
+        </div>
+        <span>:</span>
+        <div class="bg-slate-900/40 backdrop-blur-sm px-3 py-1.5 rounded-xl min-w-[54px]">
+          <span id="cdMinutes" class="block text-lg leading-none">00</span>
+          <span class="text-[10px] uppercase text-orange-100">Mins</span>
+        </div>
+        <span>:</span>
+        <div class="bg-slate-900/40 backdrop-blur-sm px-3 py-1.5 rounded-xl min-w-[54px]">
+          <span id="cdSeconds" class="block text-lg leading-none text-amber-300">00</span>
+          <span class="text-[10px] uppercase text-orange-100">Secs</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Search & Category Filter -->
+  <section id="productsSection" class="max-w-7xl mx-auto px-4 pt-6 pb-4">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+      <div class="relative flex-1">
+        <input type="text" id="searchInput" oninput="renderProducts()" placeholder="Search products by name..." class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-slate-500 text-sm" />
+        <span class="absolute left-3.5 top-2.5 text-slate-400">🔍</span>
+      </div>
+      <div id="categoryFilters" class="flex items-center gap-2 overflow-x-auto pb-1 sm:pb-0"></div>
+    </div>
+  </section>
+
+  <!-- Products Grid -->
+  <main class="max-w-7xl mx-auto px-4 pb-16">
+    <div id="productsGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"></div>
+    <div id="emptyProductsMsg" class="hidden text-center py-16 bg-white rounded-2xl border border-slate-200">
+      <p class="text-slate-500 text-lg font-medium">No products found!</p>
+    </div>
+  </main>
+
+  <!-- Floating WhatsApp Button -->
+  <a href="https://wa.me" target="_blank" title="Chat on WhatsApp" class="fixed bottom-5 right-5 z-30 flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-3 rounded-full shadow-lg transition transform hover:scale-105">
+    <span class="text-xl">💬</span>
+    <span class="text-sm font-bold hidden sm:inline">WhatsApp</span>
+  </a>
+
+  <!-- Footer -->
+  <footer class="bg-slate-900 text-slate-300 py-8 border-t border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm">
+      <div>
+        <p class="font-bold text-white text-base">Unique Shop</p>
+        <p class="text-slate-400 text-xs mt-1">Trusted Home Delivery Service in Bagerhat & Across Bangladesh</p>
+      </div>
+      <div class="text-center sm:text-right text-xs text-slate-400 space-y-1">
+        <p>WhatsApp Support: <span class="text-white font-semibold">01984456983</span></p>
+        <p>Nagad Payment Number: <span class="text-white font-semibold">01984556983</span></p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==================== PRODUCT DESCRIPTION & DETAILS MODAL ==================== -->
+  <div id="productDetailsModal" class="hidden fixed inset-0 z-50 modal-backdrop flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden my-8">
+      <div class="flex items-center justify-between px-6 py-4 bg-slate-900 text-white">
+        <h3 class="text-base sm:text-lg font-bold">📋 Product Details & Description</h3>
+        <button onclick="closeModal('productDetailsModal')" class="text-slate-300 hover:text-white text-2xl leading-none">&times;</button>
+      </div>
+      <div id="productDetailsBody" class="p-6 max-h-[82vh] overflow-y-auto space-y-5">
+        <!-- Injected by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== DIRECT ORDER / CHECKOUT MODAL ==================== -->
+  <div id="directOrderModal" class="hidden fixed inset-0 z-50 modal-backdrop flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden my-8">
+      <div class="flex items-center justify-between px-6 py-4 bg-slate-900 text-white">
+        <h3 class="text-lg font-bold flex items-center gap-2">🛍️ Direct Order Checkout</h3>
+        <button onclick="closeModal('directOrderModal')" class="text-slate-300 hover:text-white text-2xl leading-none">&times;</button>
+      </div>
+
